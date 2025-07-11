@@ -7,17 +7,25 @@ spring:
 
   cloud:
     gateway:
-      httpclient:
-        connect-timeout: 10000
-        response-timeout: 10s
+      server: # Added 'server' here
+        webflux: # Added 'webflux' here
+          httpclient:
+            connect-timeout: 10000           # in milliseconds
+            response-timeout: 10s            # in duration format (s = seconds)
 
 resilience4j:
   timelimiter:
     instances:
+      default:
+        timeoutDuration: 5s
       unison-CB:
         timeoutDuration: 5s
   circuitbreaker:
     instances:
+      default:
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
       unison-CB:
         slidingWindowSize: 5
         failureRateThreshold: 50
@@ -27,3 +35,10 @@ logging:
   level:
     io.github.resilience4j: DEBUG
     org.springframework.cloud.gateway: DEBUG
+
+fallback-messages:
+  timeout: "Service '%s' timed out. Please try again later."
+  circuit-open: "Service '%s' circuit is open. We are working to restore it."
+  not-found: "Service '%s' could not be reached or found."
+  connection-refused: "Service '%s' is currently unavailable or may be down."
+  unknown: "Service '%s' failed due to an unexpected error."
