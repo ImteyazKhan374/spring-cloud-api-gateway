@@ -1,0 +1,29 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      httpclient:
+        connect-timeout: 10000
+        response-timeout: 10s
+
+resilience4j:
+  timelimiter:
+    instances:
+      unison-CB:
+        timeoutDuration: 5s
+  circuitbreaker:
+    instances:
+      unison-CB:
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+
+logging:
+  level:
+    io.github.resilience4j: DEBUG
+    org.springframework.cloud.gateway: DEBUG
