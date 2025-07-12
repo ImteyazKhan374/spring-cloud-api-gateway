@@ -5,13 +5,35 @@ spring:
   application:
     name: api-gateway
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
   cloud:
     gateway:
-      server: # Added 'server' here
-        webflux: # Added 'webflux' here
+      server:
+        webflux:
           httpclient:
-            connect-timeout: 10000           # in milliseconds
-            response-timeout: 10s            # in duration format (s = seconds)
+            connect-timeout: 10000
+            response-timeout: 10s
+      # Rate Limiter Configuration
+      # Default properties for RequestRateLimiter
+      # You can override these per route
+      default-filters:
+        - name: RequestRateLimiter
+          args:
+            # The bean name of the KeyResolver to use (defined in RateLimiterConfig.java)
+            # key-resolver: '#userKeyResolver' # Use the user's principal name for rate limiting
+            key-resolver: '#ipKeyResolver' # Alternatively, use the client's IP address
+            # replenishRate: How many requests per second can be allowed without dropping any.
+            # This is the rate at which tokens are added to the bucket.
+            replenishRate: 10
+            # burstCapacity: The maximum number of requests a user can make in a short period.
+            # This is the maximum capacity of the token bucket.
+            burstCapacity: 20
+            # requestedTokens: (Optional) How many tokens to consume per request. Default is 1.
+            # requestedTokens: 1
 
 resilience4j:
   timelimiter:
@@ -35,10 +57,33 @@ logging:
   level:
     io.github.resilience4j: DEBUG
     org.springframework.cloud.gateway: DEBUG
+    org.springframework.security: DEBUG
 
+# Fallback messages (from previous scenarios, kept for completeness)
 fallback-messages:
   timeout: "Service '%s' timed out. Please try again later."
   circuit-open: "Service '%s' circuit is open. We are working to restore it."
   not-found: "Service '%s' could not be reached or found."
   connection-refused: "Service '%s' is currently unavailable or may be down."
   unknown: "Service '%s' failed due to an unexpected error."
+
+# --- FIX: Eureka Client Configuration for API Gateway ---
+eureka:
+  client:
+    # Specifies the Eureka server URL(s)
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    # By default, Spring Boot applications register themselves with Eureka.
+    # For a Gateway, you typically want it to fetch service registrations,
+    # but not necessarily register itself if it's just a proxy.
+    # However, for 'lb://' to work, it needs to be a Eureka client.
+    # Enabling fetch-registry and register-with-eureka ensures it acts as a full client.
+    fetch-registry: true
+    register-with-eureka: true # Set to false if you only want discovery, not registration
+  instance:
+    hostname: localhost # Or your actual hostname/IP
+    # Optional: Set a specific instance ID if running multiple gateways on the same host
+    # instance-id: ${spring.application.name}:${instance.hostname}:${random.value}
+
+jwt:
+  secret: "thisisaverylongandsecuresecretkeyforjwtauthenticationtesting"

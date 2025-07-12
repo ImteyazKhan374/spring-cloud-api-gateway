@@ -21,53 +21,53 @@ import org.springframework.web.server.ServerWebExchange;
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import reactor.core.publisher.Mono;
 
-@Component
+//@Component
 public class GlobalFallbackHandler {
 
-    // Inject fallback messages from application.yml
-    @Value("${fallback-messages.timeout:Service '%s' timed out.}")
-    private String timeoutMessage;
-
-    @Value("${fallback-messages.circuit-open:Service '%s' circuit is open.}")
-    private String circuitOpenMessage;
-
-    @Value("${fallback-messages.not-found:Service '%s' not found or unreachable.}")
-    private String notFoundMessage;
-
-    @Value("${fallback-messages.connection-refused:Service '%s' is currently down.}")
-    private String connectionRefusedMessage;
-
-    @Value("${fallback-messages.unknown:Service '%s' failed due to an unknown reason.}")
-    private String unknownMessage;
-
-	@Bean
-	RouterFunction<ServerResponse> fallbackRoute() {
-		return RouterFunctions.route(RequestPredicates.path("/fallback/{serviceName}"), this::fallbackResponse);
-	}
-
-	public Mono<ServerResponse> fallbackResponse(ServerRequest request) {
-		String serviceName = request.pathVariable("serviceName");
-		ServerWebExchange exchange = request.exchange();
-
-		Throwable exception = exchange.getAttribute(ServerWebExchangeUtils.CIRCUITBREAKER_EXECUTION_EXCEPTION_ATTR);
-
-		String message;
-		HttpStatus status = HttpStatus.SERVICE_UNAVAILABLE;
-
-		if (exception instanceof TimeoutException) {
-			message = String.format(timeoutMessage, serviceName);
-		} else if (exception instanceof CallNotPermittedException) {
-			message = String.format(circuitOpenMessage, serviceName);
-		} else if (exception instanceof UnknownHostException) {
-			message = String.format(notFoundMessage, serviceName);
-		} else if (exception instanceof ConnectException) {
-			message = String.format(connectionRefusedMessage, serviceName);
-		} else {
-			message = String.format(unknownMessage, serviceName);
-		}
-
-		return ServerResponse.status(status)
-				.contentType(MediaType.APPLICATION_JSON)
-				.bodyValue(Map.of("message", message));
-	}
+//    // Inject fallback messages from application.yml
+//    @Value("${fallback-messages.timeout:Service '%s' timed out.}")
+//    private String timeoutMessage;
+//
+//    @Value("${fallback-messages.circuit-open:Service '%s' circuit is open.}")
+//    private String circuitOpenMessage;
+//
+//    @Value("${fallback-messages.not-found:Service '%s' not found or unreachable.}")
+//    private String notFoundMessage;
+//
+//    @Value("${fallback-messages.connection-refused:Service '%s' is currently down.}")
+//    private String connectionRefusedMessage;
+//
+//    @Value("${fallback-messages.unknown:Service '%s' failed due to an unknown reason.}")
+//    private String unknownMessage;
+//
+//	@Bean
+//	RouterFunction<ServerResponse> fallbackRoute() {
+//		return RouterFunctions.route(RequestPredicates.path("/fallback/{serviceName}"), this::fallbackResponse);
+//	}
+//
+//	public Mono<ServerResponse> fallbackResponse(ServerRequest request) {
+//		String serviceName = request.pathVariable("serviceName");
+//		ServerWebExchange exchange = request.exchange();
+//
+//		Throwable exception = exchange.getAttribute(ServerWebExchangeUtils.CIRCUITBREAKER_EXECUTION_EXCEPTION_ATTR);
+//
+//		String message;
+//		HttpStatus status = HttpStatus.SERVICE_UNAVAILABLE;
+//
+//		if (exception instanceof TimeoutException) {
+//			message = String.format(timeoutMessage, serviceName);
+//		} else if (exception instanceof CallNotPermittedException) {
+//			message = String.format(circuitOpenMessage, serviceName);
+//		} else if (exception instanceof UnknownHostException) {
+//			message = String.format(notFoundMessage, serviceName);
+//		} else if (exception instanceof ConnectException) {
+//			message = String.format(connectionRefusedMessage, serviceName);
+//		} else {
+//			message = String.format(unknownMessage, serviceName);
+//		}
+//
+//		return ServerResponse.status(status)
+//				.contentType(MediaType.APPLICATION_JSON)
+//				.bodyValue(Map.of("message", message));
+//	}
 }
