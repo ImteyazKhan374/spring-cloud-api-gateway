@@ -28,10 +28,10 @@ spring:
             key-resolver: '#ipKeyResolver' # Alternatively, use the client's IP address
             # replenishRate: How many requests per second can be allowed without dropping any.
             # This is the rate at which tokens are added to the bucket.
-            replenishRate: 10
+            replenishRate: 0
             # burstCapacity: The maximum number of requests a user can make in a short period.
             # This is the maximum capacity of the token bucket.
-            burstCapacity: 20
+            burstCapacity: 1
             # requestedTokens: (Optional) How many tokens to consume per request. Default is 1.
             # requestedTokens: 1
 
@@ -58,8 +58,9 @@ logging:
     io.github.resilience4j: DEBUG
     org.springframework.cloud.gateway: DEBUG
     org.springframework.security: DEBUG
+    org.springframework.data.redis: TRACE
+    io.lettuce.core: TRACE
 
-# Fallback messages (from previous scenarios, kept for completeness)
 fallback-messages:
   timeout: "Service '%s' timed out. Please try again later."
   circuit-open: "Service '%s' circuit is open. We are working to restore it."
@@ -67,23 +68,17 @@ fallback-messages:
   connection-refused: "Service '%s' is currently unavailable or may be down."
   unknown: "Service '%s' failed due to an unexpected error."
 
-# --- FIX: Eureka Client Configuration for API Gateway ---
 eureka:
   client:
-    # Specifies the Eureka server URL(s)
     service-url:
       defaultZone: http://localhost:8761/eureka/
-    # By default, Spring Boot applications register themselves with Eureka.
-    # For a Gateway, you typically want it to fetch service registrations,
-    # but not necessarily register itself if it's just a proxy.
-    # However, for 'lb://' to work, it needs to be a Eureka client.
-    # Enabling fetch-registry and register-with-eureka ensures it acts as a full client.
     fetch-registry: true
-    register-with-eureka: true # Set to false if you only want discovery, not registration
+    register-with-eureka: true
   instance:
-    hostname: localhost # Or your actual hostname/IP
-    # Optional: Set a specific instance ID if running multiple gateways on the same host
-    # instance-id: ${spring.application.name}:${instance.hostname}:${random.value}
+    hostname: localhost
+#    prefer-ip-address: true
+#    ip-address: 127.0.0.1
+#    instance-id: ${spring.application.name}:${server.port}
 
 jwt:
   secret: "thisisaverylongandsecuresecretkeyforjwtauthenticationtesting"

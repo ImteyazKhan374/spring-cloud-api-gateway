@@ -15,17 +15,17 @@ import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBufferFactory;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatus; // Ensure this is imported
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.security.access.AccessDeniedException; // Import for AccessDeniedException
-import org.springframework.security.core.AuthenticationException; // Import for AuthenticationException
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @Configuration
-@Order(-1) // Higher precedence than default handlers
+@Order(-1)
 public class GlobalErrorWebExceptionHandler implements ErrorWebExceptionHandler {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -49,10 +49,10 @@ public class GlobalErrorWebExceptionHandler implements ErrorWebExceptionHandler 
 
         if (ex instanceof AuthenticationException) {
             message = "Authentication failed: Invalid or missing token.";
-            status = HttpStatus.UNAUTHORIZED; // 401 Unauthorized
+            status = HttpStatus.UNAUTHORIZED;
         } else if (ex instanceof AccessDeniedException) {
             message = "Authorization failed: You do not have permission to access this resource.";
-            status = HttpStatus.FORBIDDEN; // 403 Forbidden
+            status = HttpStatus.FORBIDDEN;
         } else if (ex instanceof TimeoutException) {
             message = "Service '" + serviceName + "' timed out.";
             status = HttpStatus.GATEWAY_TIMEOUT;
@@ -69,7 +69,11 @@ public class GlobalErrorWebExceptionHandler implements ErrorWebExceptionHandler 
             message = "Service '" + serviceName + "' not found or route is misconfigured.";
             status = HttpStatus.NOT_FOUND;
         } else if (ex instanceof ResponseStatusException) {
-            status = (HttpStatus) ((ResponseStatusException) ex).getStatusCode();
+            // FIX: Safely convert HttpStatusCode to HttpStatus
+            status = HttpStatus.resolve(((ResponseStatusException) ex).getStatusCode().value());
+            if (status == null) { // Fallback if resolve returns null (e.g., non-standard status code)
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
             message = "Service '" + serviceName + "' returned an error: " + ex.getMessage();
         } else {
             message = "An unexpected error occurred with service '" + serviceName + "'.";
