@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class HighFrequencyApiCaller {
 
     private static final String API_URL = "http://localhost:8085/unison/user/find/id/1";
-    private static final String BEARER_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJ0ZW5hbnRJZCI6InNpbmNkZXYxIiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzUyNDc1NTQxLCJleHAiOjE3NTI2MTk1NDF9.86eMnnxASP-1IV_8SWZsvdJ9N7F1aQje5ISnDwaoZK0";
+    private static final String BEARER_TOKEN = "test";
 
     public static void main(String[] args) {
         // Significantly increase requestCount to guarantee hitting the limit
