@@ -1,5 +1,5 @@
-// src/main/java/com/tcs/apigateway/config/CacheConfig.java
-package com.tcs.apigateway.config;
+// src/main/java/com/abkatk/apigateway/config/CacheConfig.java
+package com.abkatk.apigateway.config;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.cache.CacheManager;

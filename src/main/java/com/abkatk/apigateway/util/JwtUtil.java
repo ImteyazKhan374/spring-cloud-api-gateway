@@ -1,4 +1,4 @@
-package com.tcs.apigateway.util;
+package com.abkatk.apigateway.util;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 // Assuming this DTO exists for generating tokens
-import com.tcs.apigateway.dto.AuthRequest;
+import com.abkatk.apigateway.dto.AuthRequest;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

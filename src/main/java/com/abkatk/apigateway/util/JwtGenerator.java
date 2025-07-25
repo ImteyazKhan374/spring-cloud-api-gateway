@@ -1,4 +1,4 @@
-package com.tcs.apigateway.util; // Ensure this package matches your project structure
+package com.abkatk.apigateway.util; // Ensure this package matches your project structure
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

@@ -1,7 +1,7 @@
-// src/main/java/com/tcs/apigateway/config/GatewayRouteConfig.java
-package com.tcs.apigateway.config;
+// src/main/java/com/abkatk/apigateway/config/GatewayRouteConfig.java
+package com.abkatk.apigateway.config;
 
-import com.tcs.apigateway.filter.CachingGatewayFilterFactory; // Import the new filter
+import com.abkatk.apigateway.filter.CachingGatewayFilterFactory; // Import the new filter
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;

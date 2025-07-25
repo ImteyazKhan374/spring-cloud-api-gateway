@@ -1,6 +1,6 @@
-package com.tcs.apigateway.security;
+package com.abkatk.apigateway.security;
 
-import com.tcs.apigateway.util.JwtUtil; // Import your JwtUtil to use its validation and extraction methods
+import com.abkatk.apigateway.util.JwtUtil; // Import your JwtUtil to use its validation and extraction methods
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

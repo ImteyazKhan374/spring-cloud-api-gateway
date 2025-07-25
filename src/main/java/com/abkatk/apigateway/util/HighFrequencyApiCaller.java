@@ -1,4 +1,4 @@
-package com.tcs.apigateway.util;
+package com.abkatk.apigateway.util;
 
 import org.springframework.http.*;
 import org.springframework.web.client.HttpClientErrorException;

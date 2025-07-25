@@ -1,4 +1,4 @@
-package com.tcs.apigateway.config;
+package com.abkatk.apigateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,8 +8,8 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 
-import com.tcs.apigateway.security.BearerTokenServerAuthenticationConverter;
-import com.tcs.apigateway.security.JwtAuthenticationManager;
+import com.abkatk.apigateway.security.BearerTokenServerAuthenticationConverter;
+import com.abkatk.apigateway.security.JwtAuthenticationManager;
 
 @Configuration
 @EnableWebFluxSecurity

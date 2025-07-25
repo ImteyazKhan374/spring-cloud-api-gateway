@@ -1,4 +1,4 @@
-package com.tcs.apigateway.config;
+package com.abkatk.apigateway.config;
 
 import java.net.ConnectException;
 import java.net.UnknownHostException;

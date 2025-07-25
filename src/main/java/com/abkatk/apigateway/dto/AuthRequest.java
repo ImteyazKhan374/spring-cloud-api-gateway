@@ -1,4 +1,4 @@
-package com.tcs.apigateway.dto;
+package com.abkatk.apigateway.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

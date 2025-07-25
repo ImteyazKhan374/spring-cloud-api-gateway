@@ -1,4 +1,4 @@
-package com.tcs.apigateway.config;
+package com.abkatk.apigateway.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

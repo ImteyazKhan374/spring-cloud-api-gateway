@@ -1,4 +1,4 @@
-package com.tcs.apigateway;
+package com.abkatk.apigateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

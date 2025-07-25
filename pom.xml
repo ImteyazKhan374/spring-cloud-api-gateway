@@ -8,7 +8,7 @@
 		<version>3.2.12</version> <!-- Ensure this is consistent and stable -->
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.tcs</groupId>
+	<groupId>com.abkatk</groupId>
 	<artifactId>apigateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>apigateway</name>
